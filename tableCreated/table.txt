@@ -1,0 +1,186 @@
+insert into dhaka(id, name, mobile,
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Dec 5 15:08:14 2018
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect hr
+Enter password:
+Connected.
+SQL> spool E:\test.txt
+SQL> connect
+Enter user-name: hr
+Enter password:
+Connected.
+SQL> creat table dhaka(id number(15) primary key, name varchar2(100) not null, mobile char(11), email varchar2(50) unique, income number(11,2) check (income >1999) not null, regi_date date default sysdate, country varchar2(50) default 'Bangladesh');
+SP2-0734: unknown command beginning "creat tabl..." - rest of line ignored.
+SQL> create table dhaka(id number(15) primary key, name varchar2(100) not null, mobile char(11), email varchar2(50) unique, income number(11,2) check (income > 1999) not null, regi_date date default sysdate, country varchar2(50) default 'Bangladesh');
+
+Table created.
+
+SQL> desc dhaka;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(15)
+ NAME                                      NOT NULL VARCHAR2(100)
+ MOBILE                                             CHAR(11)
+ EMAIL                                              VARCHAR2(50)
+ INCOME                                    NOT NULL NUMBER(11,2)
+ REGI_DATE                                          DATE
+ COUNTRY                                            VARCHAR2(50)
+
+SQL> spool off;
+SQL> insert into dhaka(id, name, mobile, email, income) values(2, 'A', '+88001686000000', ba@gmail.com', 2000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'B', '+88001686000000', c@gmail.com', 25000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+88001686000000', c@gmail.com', 20000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+880016860000000', c@gmail.com', 20000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+880016860000000', 'c@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+880016860000000', 'c@gmail.com', 20000)
+                                                                  *
+ERROR at line 1:
+ORA-12899: value too large for column "HR"."DHAKA"."MOBILE" (actual: 16,
+maximum: 11)
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+88001686000000', 'c@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+88001686000000', 'c@gmail.com', 20000)
+                                                                  *
+ERROR at line 1:
+ORA-12899: value too large for column "HR"."DHAKA"."MOBILE" (actual: 15,
+maximum: 11)
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600000', 'c@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600000', 'c@gmail.com', 20000)
+                                                                  *
+ERROR at line 1:
+ORA-12899: value too large for column "HR"."DHAKA"."MOBILE" (actual: 14,
+maximum: 11)
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000);
+
+1 row created.
+
+SQL> spool off;
+not spooling currently
+SQL> show autocommit;
+autocommit OFF
+SQL>  create table dhaka2(id number(15) primary key, name varchar2(100) not null, mobile char(11), email varchar2(50) unique, income number(11,2) check (income > 1999) not null, regi_date date default sysdate, country varchar2(50) default 'Bangladesh');
+
+Table created.
+
+SQL> drop table dhaka2;
+
+Table dropped.
+
+SQL> desc dhaka2;
+ERROR:
+ORA-04043: object dhaka2 does not exist
+
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> desc dhaka2;
+ERROR:
+ORA-04043: object dhaka2 does not exist
+
+
+SQL> ALTER TABLE dhaka READ ONLY;
+
+Table altered.
+
+SQL>  insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000);
+ insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000)
+             *
+ERROR at line 1:
+ORA-12081: update operation not allowed on table "HR"."DHAKA"
+
+
+SQL> ALTER TABLE dhaka READ WRITE;
+
+Table altered.
+
+SQL>  insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000);
+ insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600000000', 'c@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600000000', 'c@gmail.com', 20000)
+                                                                  *
+ERROR at line 1:
+ORA-12899: value too large for column "HR"."DHAKA"."MOBILE" (actual: 17,
+maximum: 11)
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'c@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'd@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'd@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'f@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'f@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'af@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'af@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'a_f@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'C', '+8800168600', 'a_f@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(3, 'F', '+8800168600', 'a_f@gmail.com', 20000);
+insert into dhaka(id, name, mobile, email, income) values(3, 'F', '+8800168600', 'a_f@gmail.com', 20000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007030) violated
+
+
+SQL> insert into dhaka(id, name, mobile, email, income) values(4, 'F', '+8800168600', 'a_f@gmail.com', 21000);
+
+1 row created.
+
+SQL> select * dhaka;
+select * dhaka
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
