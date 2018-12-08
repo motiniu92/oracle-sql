@@ -1,0 +1,320 @@
+SQL> select sum(salary) from employees;
+
+SUM(SALARY)                                                                     
+-----------                                                                     
+     691416                                                                     
+
+SQL> select AVG(salary) from employees;
+
+AVG(SALARY)                                                                     
+-----------                                                                     
+ 6461.83178                                                                     
+
+SQL> select Count(*) from employees;
+
+  COUNT(*)                                                                      
+----------                                                                      
+       107                                                                      
+
+SQL> select Count(*) from employees WHERE department_id =50;
+
+  COUNT(*)                                                                      
+----------                                                                      
+        45                                                                      
+
+SQL> select Count(commission_pct) from employees WHERE department_id =80;
+
+COUNT(COMMISSION_PCT)                                                           
+---------------------                                                           
+                   34                                                           
+
+SQL> select Count(distinct department_id) from employees;
+
+COUNT(DISTINCTDEPARTMENT_ID)                                                    
+----------------------------                                                    
+                          11                                                    
+
+SQL> select AVG(commission_pct) from employees;
+
+AVG(COMMISSION_PCT)                                                             
+-------------------                                                             
+         .222857143                                                             
+
+SQL> select AVG(NVL(commission_pct, 0) from employees;
+select AVG(NVL(commission_pct, 0) from employees
+                                  *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> select AVG(NVL(commission_pct, 0)) from employees;
+
+AVG(NVL(COMMISSION_PCT,0))                                                      
+--------------------------                                                      
+                .072897196                                                      
+
+SQL> select AVG(NVL(commission_pct, 2)) from employees;
+
+AVG(NVL(COMMISSION_PCT,2))                                                      
+--------------------------                                                      
+                1.41869159                                                      
+
+SQL> 
+SQL> select department_id id, avg(salary) from employees;
+select department_id id, avg(salary) from employees
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> 
+SQL> select department_id id, avg(salary) from employees group by department_id;
+
+        ID AVG(SALARY)                                                          
+---------- -----------                                                          
+       100  8601.33333                                                          
+        30        4150                                                          
+                  7000                                                          
+        90  19333.3333                                                          
+        20        9500                                                          
+        70       10000                                                          
+       110       10154                                                          
+        50  3475.55556                                                          
+        80  8955.88235                                                          
+        40        6500                                                          
+        60        5760                                                          
+
+        ID AVG(SALARY)                                                          
+---------- -----------                                                          
+        10        4400                                                          
+
+12 rows selected.
+
+SQL> select avg(salary) from employees group by department_id;
+
+AVG(SALARY)                                                                     
+-----------                                                                     
+ 8601.33333                                                                     
+       4150                                                                     
+       7000                                                                     
+ 19333.3333                                                                     
+       9500                                                                     
+      10000                                                                     
+      10154                                                                     
+ 3475.55556                                                                     
+ 8955.88235                                                                     
+       6500                                                                     
+       5760                                                                     
+
+AVG(SALARY)                                                                     
+-----------                                                                     
+       4400                                                                     
+
+12 rows selected.
+
+SQL> select department_id id, job_id, sum(salary) total from employees group by department_id, job_id;
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+       110 AC_ACCOUNT       8300                                                
+        90 AD_VP           34000                                                
+        50 ST_CLERK        55700                                                
+        80 SA_REP         243500                                                
+        50 ST_MAN          36400                                                
+        80 SA_MAN          61000                                                
+       110 AC_MGR          12008                                                
+        90 AD_PRES         24000                                                
+        60 IT_PROG         28800                                                
+       100 FI_MGR          12008                                                
+        30 PU_CLERK        13900                                                
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+        50 SH_CLERK        64300                                                
+        20 MK_MAN          13000                                                
+       100 FI_ACCOUNT      39600                                                
+           SA_REP           7000                                                
+        70 PR_REP          10000                                                
+        30 PU_MAN          11000                                                
+        10 AD_ASST          4400                                                
+        20 MK_REP           6000                                                
+        40 HR_REP           6500                                                
+
+20 rows selected.
+
+SQL> select department_id id, job_id, sum(salary) total from employees group by department_id, job_id order by job_id;
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+       110 AC_ACCOUNT       8300                                                
+       110 AC_MGR          12008                                                
+        10 AD_ASST          4400                                                
+        90 AD_PRES         24000                                                
+        90 AD_VP           34000                                                
+       100 FI_ACCOUNT      39600                                                
+       100 FI_MGR          12008                                                
+        40 HR_REP           6500                                                
+        60 IT_PROG         28800                                                
+        20 MK_MAN          13000                                                
+        20 MK_REP           6000                                                
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+        70 PR_REP          10000                                                
+        30 PU_CLERK        13900                                                
+        30 PU_MAN          11000                                                
+        80 SA_MAN          61000                                                
+        80 SA_REP         243500                                                
+           SA_REP           7000                                                
+        50 SH_CLERK        64300                                                
+        50 ST_CLERK        55700                                                
+        50 ST_MAN          36400                                                
+
+20 rows selected.
+
+SQL> select department_id id, job_id, sum(salary) total from employees where department_id > 40 group by department_id, job_id order by job_id;
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+       110 AC_ACCOUNT       8300                                                
+       110 AC_MGR          12008                                                
+        90 AD_PRES         24000                                                
+        90 AD_VP           34000                                                
+       100 FI_ACCOUNT      39600                                                
+       100 FI_MGR          12008                                                
+        60 IT_PROG         28800                                                
+        70 PR_REP          10000                                                
+        80 SA_MAN          61000                                                
+        80 SA_REP         243500                                                
+        50 SH_CLERK        64300                                                
+
+        ID JOB_ID          TOTAL                                                
+---------- ---------- ----------                                                
+        50 ST_CLERK        55700                                                
+        50 ST_MAN          36400                                                
+
+13 rows selected.
+
+SQL> select department_id id, Count(last_name) l_n from employees group by department_id;
+
+        ID        L_N                                                           
+---------- ----------                                                           
+       100          6                                                           
+        30          6                                                           
+                    1                                                           
+        90          3                                                           
+        20          2                                                           
+        70          1                                                           
+       110          2                                                           
+        50         45                                                           
+        80         34                                                           
+        40          1                                                           
+        60          5                                                           
+
+        ID        L_N                                                           
+---------- ----------                                                           
+        10          1                                                           
+
+12 rows selected.
+
+SQL> select department_id id, job_id, Count(last_name) l_n from employees group by department_id, job_id;
+
+        ID JOB_ID            L_N                                                
+---------- ---------- ----------                                                
+       110 AC_ACCOUNT          1                                                
+        90 AD_VP               2                                                
+        50 ST_CLERK           20                                                
+        80 SA_REP             29                                                
+        50 ST_MAN              5                                                
+        80 SA_MAN              5                                                
+       110 AC_MGR              1                                                
+        90 AD_PRES             1                                                
+        60 IT_PROG             5                                                
+       100 FI_MGR              1                                                
+        30 PU_CLERK            5                                                
+
+        ID JOB_ID            L_N                                                
+---------- ---------- ----------                                                
+        50 SH_CLERK           20                                                
+        20 MK_MAN              1                                                
+       100 FI_ACCOUNT          5                                                
+           SA_REP              1                                                
+        70 PR_REP              1                                                
+        30 PU_MAN              1                                                
+        10 AD_ASST             1                                                
+        20 MK_REP              1                                                
+        40 HR_REP              1                                                
+
+20 rows selected.
+
+SQL> select department_id, avg(salary) from employees where (salary) >8000 group by department_id;
+
+DEPARTMENT_ID AVG(SALARY)                                                       
+------------- -----------                                                       
+          100        9736                                                       
+           30       11000                                                       
+           90  19333.3333                                                       
+           20       13000                                                       
+           70       10000                                                       
+          110       10154                                                       
+           50        8200                                                       
+           80       10295                                                       
+           60        9000                                                       
+
+9 rows selected.
+
+SQL> select department_id, avg(salary) from employees where avg(salary) >8000 group by department_id;
+select department_id, avg(salary) from employees where avg(salary) >8000 group by department_id
+                                                       *
+ERROR at line 1:
+ORA-00934: group function is not allowed here 
+
+
+SQL> select department_id, avg(salary) from employees where job_id group by department_id having avg(salary) > 8000;
+select department_id, avg(salary) from employees where job_id group by department_id having avg(salary) > 8000
+                                                              *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select department_id, job_id, avg(salary) from employees where job_id group by department_id having avg(salary) > 8000;
+select department_id, job_id, avg(salary) from employees where job_id group by department_id having avg(salary) > 8000
+                                                                      *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select department_id, avg(salary) from employees group by department_id having avg(salary) > 8000;
+
+DEPARTMENT_ID AVG(SALARY)                                                       
+------------- -----------                                                       
+          100  8601.33333                                                       
+           90  19333.3333                                                       
+           20        9500                                                       
+           70       10000                                                       
+          110       10154                                                       
+           80  8955.88235                                                       
+
+6 rows selected.
+
+SQL> select department_id, max(salary) from emjployees group by department_id having max(salary) > 10000;
+select department_id, max(salary) from emjployees group by department_id having max(salary) > 10000
+                                       *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select department_id, max(salary) from employees group by department_id having max(salary) > 10000;
+
+DEPARTMENT_ID MAX(SALARY)                                                       
+------------- -----------                                                       
+          100       12008                                                       
+           30       11000                                                       
+           90       24000                                                       
+           20       13000                                                       
+          110       12008                                                       
+           80       14000                                                       
+
+6 rows selected.
+
+SQL> spool off;
