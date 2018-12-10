@@ -1,0 +1,1492 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 10 15:52:33 2018
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> spool E:\exam;
+SQL> create role manag;
+
+Role created.
+
+SQL> create role supervisors;
+
+Role created.
+
+SQL> create role marketing officers;
+create role marketing officers
+                      *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create role marketOfficers;
+
+Role created.
+
+SQL> create user A identified by A;
+
+User created.
+
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> create user B,C,D,E,F identified by B,C,D,E,F;
+create user B,C,D,E,F identified by B,C,D,E,F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user AB, C, D, E, F identified by AB, C, D, E, F;
+create user AB, C, D, E, F identified by AB, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user BX, C, D, E, F identified by BX, C, D, E, F;
+create user BX, C, D, E, F identified by BX, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user X, C, D, E, F identified by X, C, D, E, F;
+create user X, C, D, E, F identified by X, C, D, E, F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user bc identified by bc;
+
+User created.
+
+SQL> create user c identified by c;
+
+User created.
+
+SQL> create user d identified by d;
+
+User created.
+
+SQL> create user e identified by e;
+
+User created.
+
+SQL> create user f identified by f;
+
+User created.
+
+SQL> grant supervisors
+  2  grant supervisors;
+grant supervisors
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant supervisors to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> create user g identified by g;
+
+User created.
+
+SQL> create user h,i identified by h, i;
+create user h,i identified by h, i
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user h identified by h;
+
+User created.
+
+SQL> create user i identified by i;
+
+User created.
+
+SQL> create user j identified by j;
+
+User created.
+
+SQL> create user k identified by k;
+
+User created.
+
+SQL> create user l identified by l;
+
+User created.
+
+SQL> create user m identified by m;
+
+User created.
+
+SQL> create user n identified by n;
+
+User created.
+
+SQL> create user o identified by o;
+
+User created.
+
+SQL> create user p identified by p;
+
+User created.
+
+SQL> grant marketOfficers to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to supervisors;
+
+Grant succeeded.
+
+SQL> grant create session, create view to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to supervisors;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL>
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01045: user A lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL>
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01005: null password given; logon denied
+
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect manag
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect supervisors
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> spool off;
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> create role manage;
+
+Role created.
+
+SQL> create role supervi;
+
+Role created.
+
+SQL> create role market;
+
+Role created.
+
+SQL> create user hafij identified by hafij;
+
+User created.
+
+SQL> create user sakil identified by sakil;
+
+User created.
+
+SQL> create user robi identified by robi;
+
+User created.
+
+SQL> grant manage to hafij;
+
+Grant succeeded.
+
+SQL> grant supervi to sakil;
+
+Grant succeeded.
+
+SQL> grant market to robi;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to manage;
+
+Grant succeeded.
+
+SQL> grant create session, create table ,create view to supervi;
+
+Grant succeeded.
+
+SQL> grant create session, create view to market;
+
+Grant succeeded.
+
+SQL> connect unlimited tablespace to manage;
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manage;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to supervi;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to market;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to hafij;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to sakil;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to robi;
+
+Grant succeeded.
+
+SQL> connect sakil
+Enter password:
+Connected.
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,));
+create table Dept(id number(5) primary key, name varchar2(15)unique,))
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,);
+create table Dept(id number(5) primary key, name varchar2(15)unique,)
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique);
+
+Table created.
+
+SQL> desc dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(15)
+
+SQL> alter table dept add (Age varchar2(50), address varchar2(25));
+
+Table altered.
+
+SQL> spool off;
+not spooling currently
+SQL> spool off;
+not spooling currently
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 10 15:52:33 2018
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> spool E:\exam;
+SQL> create role manag;
+
+Role created.
+
+SQL> create role supervisors;
+
+Role created.
+
+SQL> create role marketing officers;
+create role marketing officers
+                      *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create role marketOfficers;
+
+Role created.
+
+SQL> create user A identified by A;
+
+User created.
+
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> create user B,C,D,E,F identified by B,C,D,E,F;
+create user B,C,D,E,F identified by B,C,D,E,F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user AB, C, D, E, F identified by AB, C, D, E, F;
+create user AB, C, D, E, F identified by AB, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user BX, C, D, E, F identified by BX, C, D, E, F;
+create user BX, C, D, E, F identified by BX, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user X, C, D, E, F identified by X, C, D, E, F;
+create user X, C, D, E, F identified by X, C, D, E, F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user bc identified by bc;
+
+User created.
+
+SQL> create user c identified by c;
+
+User created.
+
+SQL> create user d identified by d;
+
+User created.
+
+SQL> create user e identified by e;
+
+User created.
+
+SQL> create user f identified by f;
+
+User created.
+
+SQL> grant supervisors
+  2  grant supervisors;
+grant supervisors
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant supervisors to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> create user g identified by g;
+
+User created.
+
+SQL> create user h,i identified by h, i;
+create user h,i identified by h, i
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user h identified by h;
+
+User created.
+
+SQL> create user i identified by i;
+
+User created.
+
+SQL> create user j identified by j;
+
+User created.
+
+SQL> create user k identified by k;
+
+User created.
+
+SQL> create user l identified by l;
+
+User created.
+
+SQL> create user m identified by m;
+
+User created.
+
+SQL> create user n identified by n;
+
+User created.
+
+SQL> create user o identified by o;
+
+User created.
+
+SQL> create user p identified by p;
+
+User created.
+
+SQL> grant marketOfficers to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to supervisors;
+
+Grant succeeded.
+
+SQL> grant create session, create view to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to supervisors;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL>
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01045: user A lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL>
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01005: null password given; logon denied
+
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect manag
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect supervisors
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> spool off;
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> create role manage;
+
+Role created.
+
+SQL> create role supervi;
+
+Role created.
+
+SQL> create role market;
+
+Role created.
+
+SQL> create user hafij identified by hafij;
+
+User created.
+
+SQL> create user sakil identified by sakil;
+
+User created.
+
+SQL> create user robi identified by robi;
+
+User created.
+
+SQL> grant manage to hafij;
+
+Grant succeeded.
+
+SQL> grant supervi to sakil;
+
+Grant succeeded.
+
+SQL> grant market to robi;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to manage;
+
+Grant succeeded.
+
+SQL> grant create session, create table ,create view to supervi;
+
+Grant succeeded.
+
+SQL> grant create session, create view to market;
+
+Grant succeeded.
+
+SQL> connect unlimited tablespace to manage;
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manage;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to supervi;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to market;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to hafij;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to sakil;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to robi;
+
+Grant succeeded.
+
+SQL> connect sakil
+Enter password:
+Connected.
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,));
+create table Dept(id number(5) primary key, name varchar2(15)unique,))
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,);
+create table Dept(id number(5) primary key, name varchar2(15)unique,)
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique);
+
+Table created.
+
+SQL> desc dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(15)
+
+SQL> alter table dept add (Age varchar2(50), address varchar2(25));
+
+Table altered.
+
+SQL> spool off;
+not spooling currently
+SQL> spool off;
+not spooling currently
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 10 15:52:33 2018
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> spool E:\exam;
+SQL> create role manag;
+
+Role created.
+
+SQL> create role supervisors;
+
+Role created.
+
+SQL> create role marketing officers;
+create role marketing officers
+                      *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create role marketOfficers;
+
+Role created.
+
+SQL> create user A identified by A;
+
+User created.
+
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> create user B,C,D,E,F identified by B,C,D,E,F;
+create user B,C,D,E,F identified by B,C,D,E,F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user AB, C, D, E, F identified by AB, C, D, E, F;
+create user AB, C, D, E, F identified by AB, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user BX, C, D, E, F identified by BX, C, D, E, F;
+create user BX, C, D, E, F identified by BX, C, D, E, F
+              *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user X, C, D, E, F identified by X, C, D, E, F;
+create user X, C, D, E, F identified by X, C, D, E, F
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user bc identified by bc;
+
+User created.
+
+SQL> create user c identified by c;
+
+User created.
+
+SQL> create user d identified by d;
+
+User created.
+
+SQL> create user e identified by e;
+
+User created.
+
+SQL> create user f identified by f;
+
+User created.
+
+SQL> grant supervisors
+  2  grant supervisors;
+grant supervisors
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant supervisors to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> create user g identified by g;
+
+User created.
+
+SQL> create user h,i identified by h, i;
+create user h,i identified by h, i
+             *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create user h identified by h;
+
+User created.
+
+SQL> create user i identified by i;
+
+User created.
+
+SQL> create user j identified by j;
+
+User created.
+
+SQL> create user k identified by k;
+
+User created.
+
+SQL> create user l identified by l;
+
+User created.
+
+SQL> create user m identified by m;
+
+User created.
+
+SQL> create user n identified by n;
+
+User created.
+
+SQL> create user o identified by o;
+
+User created.
+
+SQL> create user p identified by p;
+
+User created.
+
+SQL> grant marketOfficers to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to supervisors;
+
+Grant succeeded.
+
+SQL> grant create session, create view to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to supervisors;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to marketOfficers;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL>
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to bc, c, d, e, f;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to g, h, i, j, k, l, m, n, o, p;
+
+Grant succeeded.
+
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01045: user A lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL>
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01005: null password given; logon denied
+
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant manag to A;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to manag;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to A;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> connect A
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect manag
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect supervisors
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> spool off;
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> create role manage;
+
+Role created.
+
+SQL> create role supervi;
+
+Role created.
+
+SQL> create role market;
+
+Role created.
+
+SQL> create user hafij identified by hafij;
+
+User created.
+
+SQL> create user sakil identified by sakil;
+
+User created.
+
+SQL> create user robi identified by robi;
+
+User created.
+
+SQL> grant manage to hafij;
+
+Grant succeeded.
+
+SQL> grant supervi to sakil;
+
+Grant succeeded.
+
+SQL> grant market to robi;
+
+Grant succeeded.
+
+SQL> grant create session, create table, create sequence, create view to manage;
+
+Grant succeeded.
+
+SQL> grant create session, create table ,create view to supervi;
+
+Grant succeeded.
+
+SQL> grant create session, create view to market;
+
+Grant succeeded.
+
+SQL> connect unlimited tablespace to manage;
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to manage;
+
+Grant succeeded.
+
+SQL>
+SQL> grant unlimited tablespace to supervi;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to market;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Enter password:
+Connected.
+SQL> grant unlimited tablespace to hafij;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to sakil;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to robi;
+
+Grant succeeded.
+
+SQL> connect sakil
+Enter password:
+Connected.
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,));
+create table Dept(id number(5) primary key, name varchar2(15)unique,))
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique,);
+create table Dept(id number(5) primary key, name varchar2(15)unique,)
+                                                                    *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> create table Dept(id number(5) primary key, name varchar2(15)unique);
+
+Table created.
+
+SQL> desc dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(15)
+
+SQL> alter table dept add (Age varchar2(50), address varchar2(25));
+
+Table altered.
+
+SQL> spool off;
+not spooling currently
+SQL> spool off;
+not spooling currently
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

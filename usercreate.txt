@@ -1,0 +1,148 @@
+SQL> grant unlimited tablespace to demo;
+
+Grant succeeded.
+
+SQL> connect demo;
+Connected.
+SQL> create table test(id number(5) primary key, name varchar2(50));
+create table test(id number(5) primary key, name varchar2(50))
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> connect sys as sysdba
+Connected.
+SQL> connect demo;
+Connected.
+SQL> create table test(id number(5) primary key, name varchar2(50));
+create table test(id number(5) primary key, name varchar2(50))
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> connect sys as sysdba
+Connected.
+SQL> connect demo;
+Connected.
+SQL> grant unlimited tablespace to demo;
+grant unlimited tablespace to demo
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> connect sys as sysdba
+Connected.
+SQL> create role manager;
+
+Role created.
+
+SQL> create role md;
+
+Role created.
+
+SQL> grant create session, create table, create sequence, create procedure, create view to manager;
+
+Grant succeeded.
+
+SQL> grant create session, create view to md;
+
+Grant succeeded.
+
+SQL> create user hasina identified by hasina;
+
+User created.
+
+SQL> create user hasina identified by khaleda;
+create user hasina identified by khaleda
+            *
+ERROR at line 1:
+ORA-01920: user name 'HASINA' conflicts with another user or role name 
+
+
+SQL> create user khaleda identified by khaleda;
+
+User created.
+
+SQL> grant manager to hasina;
+
+Grant succeeded.
+
+SQL> grant md to khaleda;
+
+Grant succeeded.
+
+SQL> connect khaleda;
+Connected.
+SQL>  create table test(id number(5) primary key, name varchar2(50));
+ create table test(id number(5) primary key, name varchar2(50))
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> connect sys as sysdba
+Connected.
+SQL> grant unlimited tablespace to manager;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to md;
+
+Grant succeeded.
+
+SQL> connect hasina
+Connected.
+SQL>  create table test(id number(5) primary key, name varchar2(50));
+ create table test(id number(5) primary key, name varchar2(50))
+*
+ERROR at line 1:
+ORA-01950: no privileges on tablespace 'SYSTEM' 
+
+
+SQL>  connect sys as sysdba
+Connected.
+SQL>  grant unlimited tablespace to hasina;
+
+Grant succeeded.
+
+SQL> connect hasina
+Connected.
+SQL> create table test(id number(5) primary key, name varchar2(50));
+
+Table created.
+
+SQL>  connect sys as sysdba
+Connected.
+SQL>  grant unlimited tablespace to khaleda;
+
+Grant succeeded.
+
+SQL> connect khaleda
+Connected.
+SQL> create view test_view  as select * from hasina.test;
+create view test_view  as select * from hasina.test
+                                               *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> connect sys as sysdba
+Connected.
+SQL> connect hasina
+Connected.
+SQL> grant select on test to khaleda;
+
+Grant succeeded.
+
+SQL> connect sys as sysdba
+Connected.
+SQL> connect khaleda
+Connected.
+SQL> create view test_view as select * from hasina.test;
+
+View created.
+
+SQL> spool off;
