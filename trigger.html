@@ -1,0 +1,29 @@
+============================= Insert Example=========================
+ Connected.
+ 
+ 
+ //////table/////
+SQL> create table dhaka(usaid number(5) ,fname varchar2(25),lname varchar2(25));
+
+Table created.
+
+SQL>  create table dhaka_backup as select * from dhaka;
+
+Table created.
+
+
+////trigger/////
+
+SQL> CREATE or REPLACE TRIGGER dhaka_after_insert AFTER INSERT ON dhaka
+  2  FOR EACH ROW
+  3  DECLARE
+  4  BEGIN
+  5  insert into dhaka_backup values (:new.usaid, :new.fname, :new.lname);
+  6  DBMS_OUTPUT.PUT_LINE('Record successfully inserted into usa_backup table');
+  7  END;
+  8  /
+
+Trigger created.
+
+
+
