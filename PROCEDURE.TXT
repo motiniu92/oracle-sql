@@ -1,0 +1,32 @@
+                   Procedure
+====================================================
+CREATE TABLE CUSTOMER2 ( 
+  id NUMBER (5) PRIMARY KEY,
+  name VARCHAR2 (20) NOT NULL,
+  mobile VARCHAR2 (11) NOT NULL,
+  country VARCHAR2 (50) Default 'BD');
+ 
+========================================================
+CREATE OR REPLACE PROCEDURE insertCustomer2(
+   p_id IN CUSTOMER2.id%TYPE,
+    p_name IN CUSTOMER2.name%TYPE,
+    p_mobile IN CUSTOMER2.mobile%TYPE,
+    p_country IN CUSTOMER2.country%TYPE)
+
+IS 
+BEGIN 
+   INSERT INTO CUSTOMER2 (id,name,mobile,country)
+VALUES (p_id,p_name,p_mobile,p_country);
+COMMIT;
+END;
+/
+
+==============================================================
+  
+ BEGIN
+ insertCustomer2(1,'A','O1922','BD');
+ END;
+ /
+
+================================================================
+

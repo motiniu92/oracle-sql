@@ -1,0 +1,156 @@
+SQL> create table customer (id number(5) primary key, name varchar2(20) NOT NULL, mobile varchar2(11) NOT NULL, country varchar2(50) Default 'BD');
+
+Table created.
+
+SQL> CREATE OR REPLACE PROCEDURE  insertCustomer(p_id IN CUSTOMER.id%TYPE, p_name IN CUSTOMER.name%TYPE, p_mobile IN CUSTOMER.mobile%TYPE, p_country IN CUSTOMER.country%TYPE) IS  BEGIN INSERT INTO CUSTOMER (id,name,mobile,country) VALUES (p_id,p_name,p_mobile,p_country);
+  2  COMMIT;
+  3  END;
+  4  /
+
+Procedure created.
+
+SQL>  BEGIN
+  2   insertCustomer2(1,'A','O1922','BD');
+  3   END;
+  4   /
+ insertCustomer2(1,'A','O1922','BD');
+ *
+ERROR at line 2:
+ORA-06550: line 2, column 2: 
+PLS-00905: object HR.INSERTCUSTOMER2 is invalid 
+ORA-06550: line 2, column 2: 
+PL/SQL: Statement ignored 
+
+
+SQL> BEGIN
+  2   insertCustomer(1,'A','O1922','BD');
+  3   END;
+  4   /
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER
+  2  SET name=p_name,
+  3  mobile=p_mobile,
+  4  country=p_country,
+  5  Where id=p_id;
+  6  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER
+  2  p_id IN CUSTOMER. id%TYPE,
+  3   p_name IN CUSTOMER.name%TYPE,
+  4   p_mobile IN CUSTOMER.mobile%TYPE
+  5   p_country IN CUSTOMER.country%TYPE)
+  6  
+  7   IS
+  8   BEGIN
+  9  update customer SET name=p_name,mobile=p_mobile,country=p_country,Where id=p_id;
+ 10  commit;
+ 11  end;
+ 12  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER
+  2  p_id IN CUSTOMER.id%TYPE,
+  3   p_name IN CUSTOMER.name%TYPE,
+  4   p_mobile IN CUSTOMER.mobile%TYPE
+  5   p_country IN CUSTOMER.country%TYPE)
+  6  IS
+  7  BEGIN
+  8  update customer SET name=p_name,mobile=p_mobile,country=p_country,Where id=p_id;
+  9  commit;
+ 10  end;
+ 11  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> desc customer;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                      NOT NULL VARCHAR2(20)
+ MOBILE                                    NOT NULL VARCHAR2(11)
+ COUNTRY                                            VARCHAR2(50)
+
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER
+  2  p_id IN CUSTOMER.id%TYPE,
+  3   p_name IN CUSTOMER.name%TYPE,
+  4   p_mobile IN CUSTOMER.mobile%TYPE,
+  5   p_country IN CUSTOMER.country%TYPE)
+  6  IS
+  7  BEGIN
+  8  update customer SET name=p_name,mobile=p_mobile,country=p_country,Where id=p_id;
+  9  commit;
+ 10  end;
+ 11  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER
+  2  p_id IN CUSTOMER.id%TYPE,
+  3   p_name IN CUSTOMER.name%TYPE,
+  4   p_mobile IN CUSTOMER.mobile%TYPE,
+  5   p_country IN CUSTOMER.country%TYPE)
+  6  
+  7  IS
+  8  BEGIN
+  9  update customer SET name=p_name,mobile=p_mobile,country=p_country Where id=p_id;
+ 10  commit;
+ 11  end;
+ 12  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE updateCUSTOMER(
+  2  p_id IN CUSTOMER.id%TYPE,
+  3   p_name IN CUSTOMER.name%TYPE,
+  4   p_mobile IN CUSTOMER.mobile%TYPE,
+  5   p_country IN CUSTOMER.country%TYPE)
+  6  
+  7  IS
+  8  BEGIN
+  9  update customer SET name=p_name,mobile=p_mobile,country=p_country Where id=p_id;
+ 10  commit;
+ 11  end;
+ 12  /
+
+Procedure created.
+
+SQL> CREATE OR REPLACE PROCEDURE deleteCustomer(
+  2  p_id IN CUSTOMER.id%TYPE,
+  3  p_mobile IN CUSTOMER.mobile%TYPE)
+  4  
+  5  IS
+  6  BEGIN
+  7  delete from CUSTOMER where id=p_id,mobile=p_mobile;
+  8  COMMIT;
+  9  END;
+ 10  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE deleteCustomer(
+  2  p_id IN CUSTOMER.id%TYPE,
+  3  p_mobile IN CUSTOMER.mobile%TYPE)
+  4  
+  5  IS
+  6  BEGIN
+  7  delete from CUSTOMER where id=p_id,mobile=p_mobile;
+  8  COMMIT;
+  9  END;
+ 10  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> 
+SQL> Call:
+  2  Begin
+  3  deleteCustomer(100);
+SP2-0552: Bind variable "BEGIN" not declared.
+SQL> end;
+SP2-0042: unknown command "end" - rest of line ignored.
+SQL> spool off;
