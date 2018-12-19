@@ -1,0 +1,258 @@
+SQL> create role manager;
+
+Role created.
+
+SQL> create role supervisor;
+
+Role created.
+
+SQL> create role marketing_officer;
+
+Role created.
+
+SQL>  grant create session, create sequence, create view, create table, create procedure to manager;
+
+Grant succeeded.
+
+SQL> grant create session, create sequence, create view, create table to supervisor;
+
+Grant succeeded.
+
+SQL> create user aaa identified by aaa;
+
+User created.
+
+SQL> create user bbb identified by bbb;
+
+User created.
+
+SQL> grant dba to manager;
+
+Grant succeeded.
+
+SQL> grant manager to aaa;
+
+Grant succeeded.
+
+SQL> grant supervisor to bbb;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to aaa;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to bbb;
+
+Grant succeeded.
+
+SQL> connect bbb
+Connected.
+SQL> create table department(dept_id number(7) primary key, dept_name varchar2(50) unique);
+
+Table created.
+
+SQL> create table contact(con_id number(7) primary key, mobile number(15) unique,country varchar2(50) default 'Bangladesh');
+
+Table created.
+
+SQL> create table employee(id number(7) primary key, emp_name varchar2(20), salary number(7) check(salary>=25000), joining_date date check(joining_date<='01-Jan-2000'), dept_id number(7) not null, con_id number(7),constraint emp_dep foreign key (dept_id) references department, constraint emp_con foreign key (con_id) references contact);
+
+Table created.
+
+SQL> alter table employee add constraints emp_dept_id unique (con_id);
+
+Table altered.
+
+SQL> create sequence dept_seq increment by 10 start with 10 nocache nocycle;
+
+Sequence created.
+
+SQL> create sequence con_seq increment by 5 start with 5 nocache nocycle;
+
+Sequence created.
+
+SQL> create sequence emp_seq increment by 1 start with 1 nocache nocycle;
+
+Sequence created.
+
+SQL> insert into department(dept_id,dept_name) values(10,'Administration');
+
+1 row created.
+
+SQL> insert into department(dept_id,dept_name) values(10,'Administration');
+insert into department(dept_id,dept_name) values(10,'Administration')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007121) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'HR and Finance');
+insert into department(dept_id,dept_name) values(dept_seq.nextval,'HR and Finance')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007121) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'HR and Finance');
+
+1 row created.
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'Marketing');
+
+1 row created.
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'RnD');
+
+1 row created.
+
+SQL>  insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration');
+ insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007122) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration');
+insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007122) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration');
+insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007122) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration');
+insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administration')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BBB.SYS_C007122) violated 
+
+
+SQL> insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administrations');
+
+1 row created.
+
+SQL> insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345678,'Japan');
+
+1 row created.
+
+SQL> contact(con_id,mobile,country) values(con_seq.nextval,01712345679,'France');
+SP2-0734: unknown command beginning "contact(co..." - rest of line ignored.
+SQL> insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345679,'France');
+
+1 row created.
+
+SQL>  insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345680,'Italy');
+
+1 row created.
+
+SQL>  insert into contact(con_id,mobile) values(con_seq.nextval,01712345681);
+
+1 row created.
+
+SQL> insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,10);
+
+1 row created.
+
+SQL> insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,15);
+
+1 row created.
+
+SQL> insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,20);
+
+1 row created.
+
+SQL> desc department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_ID                                   NOT NULL NUMBER(7)
+ DEPT_NAME                                          VARCHAR2(50)
+
+SQL> desc contac;
+ERROR:
+ORA-04043: object contac does not exist 
+
+
+SQL> desc contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CON_ID                                    NOT NULL NUMBER(7)
+ MOBILE                                             NUMBER(15)
+ COUNTRY                                            VARCHAR2(50)
+
+SQL> desc employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(7)
+ EMP_NAME                                           VARCHAR2(20)
+ SALARY                                             NUMBER(7)
+ JOINING_DATE                                       DATE
+ DEPT_ID                                   NOT NULL NUMBER(7)
+ CON_ID                                             NUMBER(7)
+
+SQL> select * from department;
+
+   DEPT_ID DEPT_NAME                                                            
+---------- --------------------------------------------------                   
+        10 Administration                                                       
+        20 HR and Finance                                                       
+        30 Marketing                                                            
+        40 RnD                                                                  
+        90 Administrations                                                      
+
+SQL> select * from contact;
+
+    CON_ID     MOBILE COUNTRY                                                   
+---------- ---------- --------------------------------------------------        
+         5 1712345678 Japan                                                     
+        10 1712345679 France                                                    
+        15 1712345680 Italy                                                     
+        20 1712345681 Bangladesh                                                
+
+SQL> select * from employee;
+
+        ID EMP_NAME                 SALARY JOINING_D    DEPT_ID     CON_ID      
+---------- -------------------- ---------- --------- ---------- ----------      
+         1 AAA                       25000 01-FEB-98         10         10      
+         2 AAA                       25000 01-FEB-98         10         15      
+         3 AAA                       25000 01-FEB-98         10         20      
+
+SQL> create view emp_view as select e.emp_name "Emp Name", e.salary "Monthly Sal", d.dept_name "Dept Name", c.mobile, c.country from employee e, department d, contact c where e.id=d.dept_id and e.con_id=c.con_id;
+
+View created.
+
+SQL> connect sys as sysdba
+Connected.
+SQL> grant create synonym to supervisor;
+
+Grant succeeded.
+
+SQL> connect bbb
+Connected.
+SQL> create synonym esyn for emp_view;
+
+Synonym created.
+
+SQL> update employee set salary=30000 where emp_name='AAA';
+
+3 rows updated.
+
+SQL> update employee set salary=35000,emp_name='BBB' where con_id=15;
+
+1 row updated.
+
+SQL> select * from employee;
+
+        ID EMP_NAME                 SALARY JOINING_D    DEPT_ID     CON_ID      
+---------- -------------------- ---------- --------- ---------- ----------      
+         1 AAA                       30000 01-FEB-98         10         10      
+         2 BBB                       35000 01-FEB-98         10         15      
+         3 AAA                       30000 01-FEB-98         10         20      
+
+SQL> spool off;

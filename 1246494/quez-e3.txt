@@ -1,0 +1,144 @@
+===========================================================
+=======================Create Table========================
+ create table pdf (id number(5), name varchar2(50), salary number(7,2),
+ 
+     hire_date date default sysdate, address varchar2(55));
+	 
+	 
+	 
+====================== Alter table======================
+  alter table pdf modify id primary key;
+  
+  
+
+=============================insert data================
+ insert into &table values (01, 'Mehedi', 25000, '20_Mar_1998', 'Central Road');
+ 
+ insert into &table values (02, 'Robi', 15000, '02_Apr_1997', 'Dhaka');
+ 
+ insert into &table values (03, 'Kadir', 31000, '10_Jan_1995', 'Japan');
+ 
+ 
+ 
+======================show data========================
+ select * from pdf;
+ 
+ 
+ 
+==========================add column=====================
+ ALTER TABLE pdf ADD(phone number(15), job_title VARCHAR2(20));
+ 
+ 
+ 
+======================salary 30%========================
+ select name, job_title, salary, salary+(salary*.30) "Review Salary" from pdf;
+ 
+ 
+ 
+========================Min salary========================
+ select name, salary from pdf Where salary =(select MIN(salary) from pdf);
+ 
+ 
+ 
+============================update column===================
+ update pdf set job_title='Manager';
+ 
+ 
+ 
+=======================Create view==========================
+ create or replace view pdf_view as select * from pdf; 
+ 
+ 
+ 
+=======================Create sequence=====================
+ create sequence pdf_seq increment by 1 start with 1 nocache nocycle;
+ 
+ 
+ 
+========================Create index=======================
+ create index pdf_id_ind on pdf(name);
+ 
+ 
+ 
+======================backup table===========================
+ create table pdf_backup as select * from pdf;
+ 
+ 
+ 
+==========================Create trigger======================
+ CREATE OR REPLACE TRIGGER pdf_trigger_after AFTER insert ON pdf
+	FOR EACH ROW
+	DECLARE
+	BEGIN
+	insert into pdf_backup values (:new.id, :new.name, :new.salary, :new.hire_date, :new.address, :new.phone, :new.job_title);
+	dbms_output.put_line ('Data Inserted successfully into pdf_backup table');
+	END;
+	/
+ 
+ 
+============================show trigger=======================
+ select * from pdf_backup;
+ 
+ 
+ 
+==========================update trigger=========================
+ CREATE OR REPLACE TRIGGER pdf_trigger_update AFTER update ON pdf
+	FOR EACH ROW
+	DECLARE
+	BEGIN
+	UPDATE pdf_backup
+	set id = :new.id, name = :new.name, salary = :new.salary, hire_date = :new.hire_date,
+	address = :new.address, phone = :new.phone, job_title = :new.job_title
+	where id = :old.id or name = :old.name or salary = :old.salary;
+	dbms_output.put_line ('Data Updated successfully into pdf_backup table');
+	END;
+	/
+	
+	
+=======================delete trigger=============================
+ CREATE OR REPLACE TRIGGER pdf_trigger_delete AFTER delete ON pdf
+	FOR EACH ROW
+	DECLARE
+	BEGIN
+	DELETE from pdf_backup
+	where id = :old.id or name = :old.name or salary = :old.salary;
+	dbms_output.put_line ('Data deleted successfully from pdf_backup table');
+	END;
+	/
+ 
+ 
+===================insert data pdf_backup========================
+ insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller
+       Road', 01717677450,'Manager');
+ 
+ 
+ 
+==============================update set name=========================
+ update pdf set name = 'Kalam' where id = 05;
+ 
+ 
+ 
+============================update set id=============================
+ update pdf set id = 06, hire_date = default, address = 'Elephant Road'
+       where name = 'Masud'; 
+ 
+ 
+ 
+========================update set name================================
+ update pdf set name = 'Taposh', hire_date = default, address = 'Azimpur 
+    Road' where id = 7;
+ 
+ 
+ 
+====================================delete==========================
+ delete from pdf where id = 06;
+ 
+ 
+ 
+ 
+============================show data===============================
+ select * from pdf;
+ select * from pdf_backup;
+ 
+ 
+ 

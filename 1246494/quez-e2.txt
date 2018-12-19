@@ -1,0 +1,186 @@
+=====================================================================
+============================Quez Two=================================
+ Rahim & Sons Company has 3 types of employees: Manager - 1, Supervisor - 5, and Marketing Officer - 10.
+   They need to build a system where manager will be authorised to do anything on the database system.
+   Supervisors can create table, view, and sequence. And Marketing officers can only view the data.
+
+   1. create table named department, contact, employee.
+	 a. department: id pk, name unique
+	 b. contact: id, mobile unique, country default Bangladesh.
+	 c. employee: id, name, salary (starts with 25000), joining_date (before 2000),
+        department_id fk not null and contact_id unique fk not null
+
+   2. create 3 sequences for each table.
+	 a. department sequence should ne increment by 10 and start with 10.
+	 b. contact sequence should ne increment by 5 and start with 5.
+	 c. employee sequence should ne increment by 1. 
+	 
+   3. insert 15 data into employee table.
+
+   4. create a view for employee table to display the following data: emp id, emp name,
+      annual salary, dept name, mobile, country.
+	 
+	 
+====================================================================
+=============================Answer=================================
+  connect sys as sysdba
+  Enter password:
+  connected.
+  
+=========================Create role=======================
+  create role manager;
+
+  create role supervisor;  
+	 
+  create role marketing_officer;
+  
+
+
+===================grant Create session====================  
+ grant create session, create sequence, create view, create table, create procedure to manager;
+ 
+ grant create session, create sequence, create view, create table to supervisor;
+
+ 
+ 
+=======================Create user=========================
+ create user aaa identified by aaa;
+ 
+ create user bbb identified by bbb;
+
+ 
+ 
+========================grant dba==========================
+ grant dba to manager;
+
+
+ 
+========================grant user========================
+ grant manager to aaa;
+
+ grant supervisor to bbb;
+ 
+ 
+ 
+====================grant tablespace======================
+ grant unlimited tablespace to aaa;
+
+ grant unlimited tablespace to bbb;
+ 
+ 
+
+===================================================================
+=====================Connect super supervisor====================== 
+ connect bbb
+ Enter password:
+ Connected. 
+
+
+======================create table=======================
+ create table department(dept_id number(7) primary key, dept_name varchar2(50) unique);
+
+ create table contact(con_id number(7) primary key, mobile number(15) unique,
+           country varchar2(50) default 'Bangladesh');
+ 
+ create table employee(id number(7) primary key, emp_name varchar2(20),salary number(7) check(salary>=25000),
+          joining_date date check(joining_date<='01-Jan-2000'), dept_id number(7) not null, con_id number(7),constraint
+          emp_dep foreign key (dept_id) references department, constraint emp_con foreign key (con_id) references contact);
+ 
+ 
+ 
+======================alter table=======================
+ alter table employee add constraints emp_dept_id unique (con_id);
+ 
+ 
+ 
+====================create sequence===================== 
+ create sequence dept_seq increment by 10 start with 10 nocache nocycle;
+ 
+ create sequence con_seq increment by 5 start with 5 nocache nocycle;
+ 
+ create sequence emp_seq increment by 1 start with 1 nocache nocycle;
+ 
+ 
+ 
+======================insert data========================
+ insert into department(dept_id,dept_name) values(10,'Administration');
+ 
+ insert insert into department(dept_id,dept_name) values(dept_seq.nextval,'HR and Finance');
+ 
+ insert into department(dept_id,dept_name) values(dept_seq.nextval,'Marketing');
+ 
+ insert into department(dept_id,dept_name) values(dept_seq.nextval,'RnD');
+ 
+ insert into department(dept_id,dept_name) values(dept_seq.nextval,'Administrations');
+
+ 
+ insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345678,'Japan');
+
+ insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345679,'France');
+ 
+ insert into contact(con_id,mobile,country) values(con_seq.nextval,01712345680,'Italy');
+	 
+ insert into contact(con_id,mobile) values(con_seq.nextval,01712345681);	 
+	 
+	 
+ insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,10);
+	 
+ insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,15);	 
+ 	 
+ insert into employee(id,emp_name,salary,joining_date,dept_id,con_id) values(emp_seq.nextval,'AAA',25000,'01-Feb-1998',10,20);	
+
+
+
+=====================show table column====================
+ desc department;
+ 
+ desc contact;
+ 
+ desc employee;
+ 
+ 
+========================show data=========================
+ select * from department;
+ 
+ select * from contact;
+ 
+ select * from employee;
+
+
+=======================Create view=======================
+ create view emp_view as select e.emp_name "Emp Name", e.salary "Monthly Sal",
+   d.dept_name "Dept Name", c.mobile, c.country from employee e, department d,
+   contact c where e.id=d.dept_id and e.con_id=c.con_id;
+
+
+=======================================================================
+==============================Connect sys==============================
+ grant create synonym to supervisor;
+
+
+=================Connect super supervisor=================
+ connect bbb
+ Enter password:
+ Connected. 
+
+
+=====================Create synonym======================
+ create synonym esyn for emp_view;
+
+ 
+
+======================update data========================
+ update employee set salary=30000 where emp_name='AAA';
+
+ update employee set salary=35000,emp_name='BBB' where con_id=15;
+
+
+========================show data=========================
+ select * from employee;
+
+
+
+
+
+ 
+	 
