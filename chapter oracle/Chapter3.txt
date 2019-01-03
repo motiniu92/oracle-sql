@@ -1,0 +1,304 @@
+SQL> 
+SQL> select sysdate "Date" from dual;
+
+Date                                                                            
+---------                                                                       
+13-DEC-18                                                                       
+
+SQL> select employee_id, last_name, salary,
+  2   ROUND(salary * 1.155, 0) "New Salary"
+  3   from employees;
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        100 King                           24000      27720                     
+        101 Kochhar                        17000      19635                     
+        102 De Haan                        17000      19635                     
+        103 Hunold                          9000      10395                     
+        104 Ernst                           6000       6930                     
+        105 Austin                          4800       5544                     
+        106 Pataballa                       4800       5544                     
+        107 Lorentz                         4200       4851                     
+        108 Greenberg                      12008      13869                     
+        109 Faviet                          9000      10395                     
+        110 Chen                            8200       9471                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        111 Sciarra                         7700       8894                     
+        112 Urman                           7800       9009                     
+        113 Popp                            6900       7970                     
+        114 Raphaely                       11000      12705                     
+        115 Khoo                            3100       3581                     
+        116 Baida                           2900       3350                     
+        117 Tobias                          2800       3234                     
+        118 Himuro                          2600       3003                     
+        119 Colmenares                      2500       2888                     
+        120 Weiss                           8000       9240                     
+        121 Fripp                           8200       9471                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        122 Kaufling                        7900       9125                     
+        123 Vollman                         6500       7508                     
+        124 Mourgos                         5800       6699                     
+        125 Nayer                           3200       3696                     
+        126 Mikkilineni                     2700       3119                     
+        127 Landry                          2400       2772                     
+        128 Markle                          2200       2541                     
+        129 Bissot                          3300       3812                     
+        130 Atkinson                        2800       3234                     
+        131 Marlow                          2500       2888                     
+        132 Olson                           2100       2426                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        133 Mallin                          3300       3812                     
+        134 Rogers                          2900       3350                     
+        135 Gee                             2400       2772                     
+        136 Philtanker                      2200       2541                     
+        137 Ladwig                          3600       4158                     
+        138 Stiles                          3200       3696                     
+        139 Seo                             2700       3119                     
+        140 Patel                           2500       2888                     
+        141 Rajs                            3500       4043                     
+        142 Davies                          3100       3581                     
+        143 Matos                           2600       3003                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        144 Vargas                          2500       2888                     
+        145 Russell                        14000      16170                     
+        146 Partners                       13500      15593                     
+        147 Errazuriz                      12000      13860                     
+        148 Cambrault                      11000      12705                     
+        149 Zlotkey                        10500      12128                     
+        150 Tucker                         10000      11550                     
+        151 Bernstein                       9500      10973                     
+        152 Hall                            9000      10395                     
+        153 Olsen                           8000       9240                     
+        154 Cambrault                       7500       8663                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        155 Tuvault                         7000       8085                     
+        156 King                           10000      11550                     
+        157 Sully                           9500      10973                     
+        158 McEwen                          9000      10395                     
+        159 Smith                           8000       9240                     
+        160 Doran                           7500       8663                     
+        161 Sewall                          7000       8085                     
+        162 Vishney                        10500      12128                     
+        163 Greene                          9500      10973                     
+        164 Marvins                         7200       8316                     
+        165 Lee                             6800       7854                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        166 Ande                            6400       7392                     
+        167 Banda                           6200       7161                     
+        168 Ozer                           11500      13283                     
+        169 Bloom                          10000      11550                     
+        170 Fox                             9600      11088                     
+        171 Smith                           7400       8547                     
+        172 Bates                           7300       8432                     
+        173 Kumar                           6100       7046                     
+        174 Abel                           11000      12705                     
+        175 Hutton                          8800      10164                     
+        176 Taylor                          8600       9933                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        177 Livingston                      8400       9702                     
+        178 Grant                           7000       8085                     
+        179 Johnson                         6200       7161                     
+        180 Taylor                          3200       3696                     
+        181 Fleaur                          3100       3581                     
+        182 Sullivan                        2500       2888                     
+        183 Geoni                           2800       3234                     
+        184 Sarchand                        4200       4851                     
+        185 Bull                            4100       4736                     
+        186 Dellinger                       3400       3927                     
+        187 Cabrio                          3000       3465                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        188 Chung                           3800       4389                     
+        189 Dilly                           3600       4158                     
+        190 Gates                           2900       3350                     
+        191 Perkins                         2500       2888                     
+        192 Bell                            4000       4620                     
+        193 Everett                         3900       4505                     
+        194 McCain                          3200       3696                     
+        195 Jones                           2800       3234                     
+        196 Walsh                           3100       3581                     
+        197 Feeney                          3000       3465                     
+        198 OConnell                        2600       3003                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        199 Grant                           2600       3003                     
+        200 Whalen                          4400       5082                     
+        201 Hartstein                      13000      15015                     
+        202 Fay                             6000       6930                     
+        203 Mavris                          6500       7508                     
+        204 Baer                           10000      11550                     
+        205 Higgins                        12008      13869                     
+        206 Gietz                           8300       9587                     
+
+107 rows selected.
+
+SQL> SELECT employee_id, last_name, salary,
+  2     ROUND(salary * 1.155, 0) "New Salary"
+  3     FROM employees;
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        100 King                           24000      27720                     
+        101 Kochhar                        17000      19635                     
+        102 De Haan                        17000      19635                     
+        103 Hunold                          9000      10395                     
+        104 Ernst                           6000       6930                     
+        105 Austin                          4800       5544                     
+        106 Pataballa                       4800       5544                     
+        107 Lorentz                         4200       4851                     
+        108 Greenberg                      12008      13869                     
+        109 Faviet                          9000      10395                     
+        110 Chen                            8200       9471                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        111 Sciarra                         7700       8894                     
+        112 Urman                           7800       9009                     
+        113 Popp                            6900       7970                     
+        114 Raphaely                       11000      12705                     
+        115 Khoo                            3100       3581                     
+        116 Baida                           2900       3350                     
+        117 Tobias                          2800       3234                     
+        118 Himuro                          2600       3003                     
+        119 Colmenares                      2500       2888                     
+        120 Weiss                           8000       9240                     
+        121 Fripp                           8200       9471                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        122 Kaufling                        7900       9125                     
+        123 Vollman                         6500       7508                     
+        124 Mourgos                         5800       6699                     
+        125 Nayer                           3200       3696                     
+        126 Mikkilineni                     2700       3119                     
+        127 Landry                          2400       2772                     
+        128 Markle                          2200       2541                     
+        129 Bissot                          3300       3812                     
+        130 Atkinson                        2800       3234                     
+        131 Marlow                          2500       2888                     
+        132 Olson                           2100       2426                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        133 Mallin                          3300       3812                     
+        134 Rogers                          2900       3350                     
+        135 Gee                             2400       2772                     
+        136 Philtanker                      2200       2541                     
+        137 Ladwig                          3600       4158                     
+        138 Stiles                          3200       3696                     
+        139 Seo                             2700       3119                     
+        140 Patel                           2500       2888                     
+        141 Rajs                            3500       4043                     
+        142 Davies                          3100       3581                     
+        143 Matos                           2600       3003                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        144 Vargas                          2500       2888                     
+        145 Russell                        14000      16170                     
+        146 Partners                       13500      15593                     
+        147 Errazuriz                      12000      13860                     
+        148 Cambrault                      11000      12705                     
+        149 Zlotkey                        10500      12128                     
+        150 Tucker                         10000      11550                     
+        151 Bernstein                       9500      10973                     
+        152 Hall                            9000      10395                     
+        153 Olsen                           8000       9240                     
+        154 Cambrault                       7500       8663                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        155 Tuvault                         7000       8085                     
+        156 King                           10000      11550                     
+        157 Sully                           9500      10973                     
+        158 McEwen                          9000      10395                     
+        159 Smith                           8000       9240                     
+        160 Doran                           7500       8663                     
+        161 Sewall                          7000       8085                     
+        162 Vishney                        10500      12128                     
+        163 Greene                          9500      10973                     
+        164 Marvins                         7200       8316                     
+        165 Lee                             6800       7854                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        166 Ande                            6400       7392                     
+        167 Banda                           6200       7161                     
+        168 Ozer                           11500      13283                     
+        169 Bloom                          10000      11550                     
+        170 Fox                             9600      11088                     
+        171 Smith                           7400       8547                     
+        172 Bates                           7300       8432                     
+        173 Kumar                           6100       7046                     
+        174 Abel                           11000      12705                     
+        175 Hutton                          8800      10164                     
+        176 Taylor                          8600       9933                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        177 Livingston                      8400       9702                     
+        178 Grant                           7000       8085                     
+        179 Johnson                         6200       7161                     
+        180 Taylor                          3200       3696                     
+        181 Fleaur                          3100       3581                     
+        182 Sullivan                        2500       2888                     
+        183 Geoni                           2800       3234                     
+        184 Sarchand                        4200       4851                     
+        185 Bull                            4100       4736                     
+        186 Dellinger                       3400       3927                     
+        187 Cabrio                          3000       3465                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        188 Chung                           3800       4389                     
+        189 Dilly                           3600       4158                     
+        190 Gates                           2900       3350                     
+        191 Perkins                         2500       2888                     
+        192 Bell                            4000       4620                     
+        193 Everett                         3900       4505                     
+        194 McCain                          3200       3696                     
+        195 Jones                           2800       3234                     
+        196 Walsh                           3100       3581                     
+        197 Feeney                          3000       3465                     
+        198 OConnell                        2600       3003                     
+
+EMPLOYEE_ID LAST_NAME                     SALARY New Salary                     
+----------- ------------------------- ---------- ----------                     
+        199 Grant                           2600       3003                     
+        200 Whalen                          4400       5082                     
+        201 Hartstein                      13000      15015                     
+        202 Fay                             6000       6930                     
+        203 Mavris                          6500       7508                     
+        204 Baer                           10000      11550                     
+        205 Higgins                        12008      13869                     
+        206 Gietz                           8300       9587                     
+
+107 rows selected.
+
+SQL> SELECT employee_id, last_name, salary,
+  2     ROUND(salary * 1.155, 0) "New Salary"
+  3     ROUND(salary * 1.155, 0) -salary "Increase"
+  4     FROM employees;
+   ROUND(salary * 1.155, 0) -salary "Increase"
+   *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL>   spool off;

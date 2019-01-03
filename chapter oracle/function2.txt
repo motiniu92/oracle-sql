@@ -1,0 +1,114 @@
+SQL> create table customer (id number(5) primary key, name varchar2(50), Age number(15), Address varchar2(40), salary number(8,2));
+create table customer (id number(5) primary key, name varchar2(50), Age number(15), Address varchar2(40), salary number(8,2))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> create table customer1 (id number(5) primary key, name varchar2(50), Age number(15), Address varchar2(40), salary number(8,2));
+
+Table created.
+
+SQL> CREATE OR REPLACE FUNCTION totalCustomer
+  2   RETURN NUMBER IS
+  3       total number(2) := 0;
+  4   BEGIN
+  5       SELECT count (*) into total
+  6       FROM customer;
+  7  
+  8   RETURN total;
+  9  END;
+ 10  /
+
+Function created.
+
+SQL> DFECLARE
+SP2-0042: unknown command "DFECLARE" - rest of line ignored.
+SQL>     c number(2);
+SP2-0023: String not found.
+SQL> BEGIN
+  2      c totalCustomer();
+  3  dbms_output.put_line('Total no. of Customer: ' || c);
+  4  END;
+  5  /
+    c totalCustomer();
+      *
+ERROR at line 2:
+ORA-06550: line 2, column 7: 
+PLS-00103: Encountered the symbol "TOTALCUSTOMER" when expecting one of the 
+following: 
+:= . ( @ % ; 
+The symbol ":=" was substituted for "TOTALCUSTOMER" to continue. 
+
+
+SQL> DFECLARE
+SP2-0042: unknown command "DFECLARE" - rest of line ignored.
+SQL>     c number(2);
+SP2-0023: String not found.
+SQL> BEGIN
+  2      c := totalCustomer();
+  3  dbms_output.put_line('Total no. of Customer: ' || c);
+  4  END;
+  5  /
+    c := totalCustomer();
+    *
+ERROR at line 2:
+ORA-06550: line 2, column 5: 
+PLS-00201: identifier 'C' must be declared 
+ORA-06550: line 2, column 5: 
+PL/SQL: Statement ignored 
+ORA-06550: line 3, column 51: 
+PLS-00201: identifier 'C' must be declared 
+ORA-06550: line 3, column 1: 
+PL/SQL: Statement ignored 
+
+
+SQL> DECLARE
+  2      c number(2);
+  3  BEGIN
+  4      c := totalCustomer();
+  5  dbms_output.put_line('Total no. of Customer: ' || c);
+  6  END;
+  7  /
+
+PL/SQL procedure successfully completed.
+
+SQL> insert into customer1 values
+  2   (01, 'Motin', 26, 'Palton', 25000),
+  3   (02, 'Sahin', 23, 'Mirpur', 21000),
+  4   (03, 'Robin', 19, 'Manda', 22000);
+ (01, 'Motin', 26, 'Palton', 25000),
+                                   *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> insert into customer1 values (01, 'Motin', 26, 'Palton', 25000);
+
+1 row created.
+
+SQL> insert into customer1 values (02, 'Sahin', 23, 'Mirpur', 21000);
+
+1 row created.
+
+SQL> insert into customer1 values (03, 'Robin', 19, 'Manda', 22000);
+
+1 row created.
+
+SQL> select * from customer1;
+
+        ID NAME                                                      AGE        
+---------- -------------------------------------------------- ----------        
+ADDRESS                                      SALARY                             
+---------------------------------------- ----------                             
+         1 Motin                                                      26        
+Palton                                        25000                             
+                                                                                
+         2 Sahin                                                      23        
+Mirpur                                        21000                             
+                                                                                
+         3 Robin                                                      19        
+Manda                                         22000                             
+                                                                                
+
+SQL> spool off;
