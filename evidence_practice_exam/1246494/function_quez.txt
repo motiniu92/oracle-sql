@@ -1,0 +1,43 @@
+=============================================================
+======================Create table===========================
+ create table customer1 (id number(5) primary key, name varchar2(50), Age
+     number(15), Address varchar2(40), salary number(8,2));
+	 
+
+=====================Create function=========================
+ CREATE OR REPLACE FUNCTION totalCustomer1
+    RETURN NUMBER IS
+        total number(2) := 0;
+    BEGIN
+        SELECT count (*) into total
+        FROM customer;
+   
+    RETURN total;
+   END;
+    /
+=======================================	 
+ DECLARE
+    c number(2);
+ BEGIN
+    c := totalCustomer();
+ dbms_output.put_line('Total no. of Customer: ' || c);
+ END;
+  /	 
+  
+========================insert data ========================
+ insert into customer1 values (01, 'Motin', 26, 'Palton', 25000);
+ 
+ insert into customer1 values (02, 'Sahin', 23, 'Mirpur', 21000);
+ 
+ insert into customer1 values (03, 'Robin', 19, 'Manda', 22000);
+	 
+	 
+	 
+=====================show data============================
+ select * from customer1; 
+	 
+	 
+	 
+	 
+	 
+	 

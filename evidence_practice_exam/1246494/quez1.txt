@@ -1,0 +1,202 @@
+================================================
+====================Quez One====================
+ IDB has 5 employees. Among them,
+   1 is super user = create session, table, view, sequence
+   2 are admin = create session, table
+   2 are operator = view
+  
+ And create table as test_1 and test_2 with 5 data.
+ 
+  
+================================================  
+=====================Answer=====================
+ connect sys as sysdba
+ Enter password:
+ connected. 
+
+ 
+ 
+==================Create role===================
+ create role super_user;
+ 
+ create role admin;
+ 
+ create role operator;
+ 
+ 
+
+
+=============grant Create session===============
+ grant create session, create table, create view, create sequence
+        to super_user;
+
+ grant create session, create table to admin;
+ 
+ 
+
+===================Create user==================
+ create user motin identified by motin;
+
+ create user babu identified by babu;
+
+ create user robi identified by robi;
+
+ create user sahin identified by sahin;
+
+ create user halim identified by halim;
+
+
+ 
+
+==================grant user====================
+ grant super_user to motin;
+
+ grant admin to babu;
+
+ grant admin to robi;
+
+ grant operator to sahin;
+
+ grant operator to halim;
+
+
+ 
+
+=================grant tablespace====================
+ grant unlimited tablespace to motin;
+
+ alter user babu quota 500m on system;
+
+ alter user robi quota 500m on system;
+
+ alter user sahin quota 100m on system;
+
+ alter user halim quota 100m on system;
+
+
+ 
+============================================================
+===================Connect super user=======================
+ connect motin
+ password:
+ 
+==============create table===========
+ create table test_1(id number(6) primary key, name varchar2(50), 
+       email varchar2(50));
+	   
+	   
+=============create sequence=========
+ create sequence test_seq_1 increment by 5 start with 100 maxvalue 
+      5000	nocache nocycle; 
+	  
+	  
+	  
+===========insert data===============
+ insert into test_1(id,name,email) values(test_seq_1.nextval,'Mehedi Hasan',
+      'aaa@gmail.com');
+	  
+ insert into test_1(id,name,email) values(test_seq_1.nextval,'Suad Rifat',
+      'bbb@gmail.com');
+	  
+ insert into test_1(id,name,email) values(test_seq_1.nextval,'Abu Jubayer',
+      'ccc@gmail.com');
+
+ insert into test_1(id,name,email) values(test_seq_1.nextval,'Mahin Hasan',
+      'ddd@gmail.com');
+
+ insert into test_1(id,name,email) values(test_seq_1.nextval,'Rony Sarker',
+       'eee@gmail.com');
+	   
+	   
+	   
+============show table column============
+ desc test_1;
+ 
+ 
+================show data===============
+ select * from test_1;
+
+ 
+========================================================
+=================Connect admin user=====================
+ connect babu
+ password:
+ 
+==============Create table==============
+ create table test_2(id number(7) primary key, name varchar2(55), email
+           varchar2(55));
+		   
+==============insert data===============
+ insert into test_2(id,name,email) values(200,'Mehedi Hasan','aaa@gmail.com');
+
+ insert into test_2(id,name,email) values(205,'Suad Rifat','bbb@gmail.com');
+ 
+ insert into test_2(id,name,email) values(210,'Abu Jubayer','ccc@gmail.com');
+
+ insert into test_2(id,name,email) values(215,'Mahin Hasan','ddd@gmail.com');
+
+ insert into test_2(id,name,email) values(220,'Rony Sarker','eee@gmail.com');
+ 
+ 
+ 
+============================================================
+========================Connect sys=========================
+ grant create session to sahin;
+ 
+===========connect super user========== 
+ connect motin
+ password:
+
+ 
+===========Create view=============
+ create view test_view_1 as select * from test_1;
+ 
+ grant select on test_1 to sahin;
+ 
+ 
+ 
+====================================================
+====================Connect sys=====================
+ grant create view to sahin;
+ 
+ 
+=============Connect operator============
+ connect sahin
+ password:
+  
+  create view test_view_1 as select * from motin.test_1;
+  
+  
+  
+===================================================
+====================Connect sys====================
+ connect motin
+ password:
+ 
+ select * from test_1;
+ 
+ 
+==========Connect admin user=============
+ connect babu
+ password:
+ 
+ select * from test_2;
+ 
+
+=============Connect operator============
+ connect sahin
+ password: 
+ desc test_view_1;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

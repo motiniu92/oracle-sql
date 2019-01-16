@@ -1,0 +1,243 @@
+///////////////////////////////////////////
+==========create trigger============
+create or replace trigger emp_trigger_after after insert on employee
+for each row
+declare
+begin
+insert into emp_backup values(:new.id, :new.name, :new.salary, :new.country);
+dbms_output.put_line('Data inserted successfully');
+end;
+/
+
+   insert into employee values(101, 'AAA', 300000, 'bd');
+
+
+
+==========update trigger============
+create or replace trigger emp_trigger_update after update on employee
+for each row
+declare
+begin
+update emp_backup
+set id=:new.id, name=:new.name, salary=:new.salary, country=:new.country
+where id= :old.id or name= :old.id or salary= :old.id;
+dbms_output.put_line('Data updated successfully');
+end;
+/
+
+    update employee set name = 'BBB' where id= 101;
+    update employee set id = 102 where name = 'BBB';
+
+
+==========delete trigger============
+create or replace trigger emp_trigger_delete after delete on employee
+for each row
+declare
+begin
+delete from emp_backup 
+where id= :old.id or name= :old.id or salary= :old.id;
+dbms_output.put_line('Data deleted successfully');
+end;
+/
+
+   delete from employee where id=101;
+
+
+
+
+///////////////////////////////////////////////////
+==========create procedure============
+create or replace procedure insertCustomer(
+p_id in customer.id%type,
+p_name in customer.name%type,
+p_mobile in customer.mobile%type,
+p_country in customer.country%type')
+
+is
+begin
+insert into customer(id, name, mobile, country) values(p_id, p_name, p_mobile, p_country);
+commit;
+end;
+/
+
+     
+   begin
+   insertCustomer(101, 'BBB', 012457863244, 'bd');
+   end;
+    /
+
+
+
+==========update procedure============
+create or replace procedure updateCustomer(
+p_id in customer.id%type,
+p_name in customer.name%type)
+
+is
+begin
+update customer set id=p_id or name=p_name;
+commit;
+end;
+/
+
+
+ begin
+    updateCustomer(101, 'BBB');
+    end;
+    /
+
+
+
+==========delete procedure============
+create or replace procedure deleteCustomer(
+p_id in customer.id%type,
+p_name in customer.name%type)
+
+is
+begin
+delete from customer where id=p_id or name=p_name;
+commit;
+end;
+/
+
+
+ begin
+    deleteCustomer(101, 'BBB');
+    end;
+    /
+
+
+
+///////////////////////////////////
+connect sys as sysdba
+enter password:
+ 
+
+create user motin identified by motin;
+grant dba to motin;
+grant all privileges to motin;
+grant unlimited tablespace to motin;
+alter user motin quota 500m on system;
+
+
+=========================
+create role super_user;
+grant super_user to motin;
+grant create session, create table, create view to super_user;
+
+
+connect motin
+enter password:
+
+==========Create table=============
+create table department (id number(6), name varchar2(50));
+
+create table employee (id number(6) primary key not null, name varchar2(50) unique not null, salary number(8,2) check(salary>=30000) "annaul salary",
+   join_date varcher2(50) check(join_date<='01_jan_2000'), city varchar2(50), dept_id number(6), country varchar(50) default 'bd',
+   foreign key (dept_id) references department(id));
+
+create table emp_backup as selecr * from employee;
+
+
+
+==============alter table==============
+alter table employee add (phone varchar2(15), job_title varchar2(50));
+alter table employee drop (phone varchar2(15), job_title varchar2(50));
+alter table employee modify (dept_name varchar2(50));
+
+
+============constrint===================
+alter table employee add constraint emp_id_pk primary key(id);
+alter table employee add constraint emp_name_uni unique(name);
+
+
+============insert data==========
+insert into employee(id, name, salary, country) values(101, 'AAA', 35000, 'BD');
+
+insert into employee(id, name, salary, country) values(&id, '&name', &salary, '&country');
+
+insert into employee(id, name, salary, country) values(emp_seq.nextval, 'AAA', 35000, 'BD');
+
+
+
+==============sequnece=================
+create sequence dept_seq increment by 5 start with 5 maxvalue 10000 nocache nocycle;
+
+create sequence emp_seq increment by 1 start with 100 maxvalue 500 nochae nocycle;
+
+
+
+===========synonym==================
+create synonym emp for employee;
+
+create synonym esyn for emp_view;
+
+create or replace synonym enter for emp_dept_view;
+
+
+
+=========index================
+create index emp_id_idx on employee(id);
+create index emp_id_idx on employee(id, name, salary);
+
+
+
+
+==============view===============
+create view emp_view as select from employee;
+
+create or replace view emp_dept_view as select e.id, e.name, e.salary*12 "annaul salary",
+     e.country, d.dept_id frome employee e department d where e.dept_id= d.id;
+
+create or replace view emp_dept_view(id, name, salary, country, dept_id) as select e.id, e.name, e.salary*12 "annaul salary",
+    e.country, d.dept_id frome employee e department d where e.dept_id= d.id;
+
+create or replace view emp_view(id, name, salary, country, dept_id) as select e.id, first_name|| '' || last_name, e.country from employee;
+
+create or replace view emp_sum_view (name, Maxsal, Minsal, Avgsal) as select e.name, Max(e.salary), Min(e.salary), Avg(e.salary)
+ d.dept_id from employee e join department d on(e.dept_id= d.id) group by d.dept_name;
+
+
+
+==============query=============
+select name, job_title, salary+(salary*.30) as annaul salary from employee;
+
+ select name, job_title, salary, from employee wherw salary = (select Min(salary) from employee);
+
+
+10:59 AM 1/6/2019
+
+
+  
+                                                                                                                                                                                                                                                                                                                           `
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

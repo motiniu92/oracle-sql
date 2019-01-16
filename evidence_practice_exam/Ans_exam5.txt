@@ -1,0 +1,305 @@
+SQL> create user newyear identified by newyear;
+
+User created.
+
+SQL> grant dba to newyear;
+
+Grant succeeded.
+
+SQL> grant all privileges to newyear;
+
+Grant succeeded.
+
+SQL> grant unlimited tablespace to newyear;
+
+Grant succeeded.
+
+SQL> connect newyear
+Connected.
+SQL> create table category (id number(6), cname varchar2(50));
+
+Table created.
+
+SQL> alter table category add constraint cat_id_pk primary key(id);
+
+Table altered.
+
+SQL> alter table category add constraint cat_cname_uni unique(cname);
+
+Table altered.
+
+SQL> create table employee(id number(6) primary key, name varchar2(50) not null salary number(8,2) check(salary>=25000), cat_id number(6) foreign key(cat_id) refferences category(id), country varchar2(50) default 'Bangladesh');
+create table employee(id number(6) primary key, name varchar2(50) not null salary number(8,2) check(salary>=25000), cat_id number(6) foreign key(cat_id) refferences category(id), country varchar2(50) default 'Bangladesh')
+                                                                           *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+CATEGORY                       TABLE                                            
+
+SQL> create table employee(id number(6) primary key, name varchar2(50) not null,salary number(8,2) check(salary>=25000), cat_id number(6), country varchar2(50) default 'Bangladesh', foreign key(cat_id) references category(id));
+
+Table created.
+
+SQL> create sequence cat_seq increment by 5 start with 5 nocache nocycle;
+
+Sequence created.
+
+SQL> create sequence emp_seq increment by 1 start with 100 nocache nocycle;
+
+Sequence created.
+
+SQL> create table emp_backup as select * from employee;
+
+Table created.
+
+SQL> create or replace procedure insertCategory(
+  2     p_id in category.id%type,
+  3     p_cname in category.cname%type)
+  4   is
+  5   begin
+  6   insert into category(id, cname)
+  7   values(p_id, p_cname);
+  8   commit;
+  9   end;
+ 10   /
+
+Procedure created.
+
+SQL> begin
+  2   insert insertCategory(cat_seq.nextval, motin);
+  3   end;
+  4   /
+ insert insertCategory(cat_seq.nextval, motin);
+        *
+ERROR at line 2:
+ORA-06550: line 2, column 9: 
+PL/SQL: ORA-00925: missing INTO keyword 
+ORA-06550: line 2, column 2: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> begin
+  2   insertCategory(cat_seq.nextval, motin);
+  3   end;
+  4   /
+ insertCategory(cat_seq.nextval, motin);
+                                 *
+ERROR at line 2:
+ORA-06550: line 2, column 34: 
+PLS-00201: identifier 'MOTIN' must be declared 
+ORA-06550: line 2, column 2: 
+PL/SQL: Statement ignored 
+
+
+SQL> begin
+  2   insertCategory(cat_seq.nextval, 'motin');
+  3   end;
+  4   /
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace procedure updateCategory(
+  2     p_id in category.id%type,
+  3     p_cname in category.cname%type)
+  4   is
+  5   begin
+  6   update category setid= p_id, cname= p_cname
+  7   where id= p_id or cname= p_cname;
+  8   commit;
+  9   end;
+ 10   /
+
+Warning: Procedure created with compilation errors.
+
+SQL> create or replace procedure updateCategory(
+  2     p_id in category.id%type,
+  3     p_cname in category.cname%type)
+  4   is
+  5   begin
+  6   update category set id = p_id, cname= p_cname
+  7   where id = p_id or cname = p_cname;
+  8   commit;
+  9   end;
+ 10   /
+
+Procedure created.
+
+SQL> begin
+  2    update category(cat_seq.nextval, 'sahin');
+  3   end;
+  4   /
+  update category(cat_seq.nextval, 'sahin');
+                 *
+ERROR at line 2:
+ORA-06550: line 2, column 18: 
+PL/SQL: ORA-00971: missing SET keyword 
+ORA-06550: line 2, column 3: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> begin
+  2    update category(05, 'sahin');
+  3   end;
+  4   /
+  update category(05, 'sahin');
+                 *
+ERROR at line 2:
+ORA-06550: line 2, column 18: 
+PL/SQL: ORA-00971: missing SET keyword 
+ORA-06550: line 2, column 3: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> begin
+  2    update category (05, 'sahin');
+  3   end;
+  4   /
+  update category (05, 'sahin');
+                  *
+ERROR at line 2:
+ORA-06550: line 2, column 19: 
+PL/SQL: ORA-00971: missing SET keyword 
+ORA-06550: line 2, column 3: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> begin
+  2    update category (5, 'sahin');
+  3   end;
+  4   /
+  update category (5, 'sahin');
+                  *
+ERROR at line 2:
+ORA-06550: line 2, column 19: 
+PL/SQL: ORA-00971: missing SET keyword 
+ORA-06550: line 2, column 3: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> begin
+  2    updatecategory(5, 'sahin');
+  3   end;
+  4   /
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace procedure deleteCategory(
+  2     p_id in category.id%type,)
+  3   is
+  4   begin
+  5   delete from category where id = p_id or cname = p_cname;
+  6   commit;
+  7   end;
+  8   /
+
+Warning: Procedure created with compilation errors.
+
+SQL> create or replace procedure deleteCategory(
+  2     p_id in category.id%type)
+  3   is
+  4   begin
+  5   delete from category where id = p_id or cname = p_cname;
+  6   commit;
+  7   end;
+  8   /
+
+Warning: Procedure created with compilation errors.
+
+SQL> create or replace procedure deleteCategory(
+  2     p_id in category.id%type,
+  3     p_cname in category.cname%type)
+  4   is
+  5   begin
+  6   delete from category where id = p_id or cname = p_cname;
+  7   commit;
+  8   end;
+  9   /
+
+Procedure created.
+
+SQL> begin
+  2   deleteCategory(5, 'sahin');
+  3   end;
+  4   /
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace trigger emp_trigger_after after insert on employee
+  2  for each row
+  3  declare
+  4  begin
+  5  insert into emp_backup values(:new.id, :new.name, :new.salary, :new.cat_id, :new.country);
+  6  dbms_output.put_line('Data inserted successfully into emp_backup table');
+  7   end;
+  8   /
+
+Trigger created.
+
+SQL> insert into employee values(01, 'AAA', 25000, 15, bd);
+insert into employee values(01, 'AAA', 25000, 15, bd)
+                                                  *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> insert into employee values(01, 'AAA', 25000, 15, 'bd');
+insert into employee values(01, 'AAA', 25000, 15, 'bd')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (NEWYEAR.SYS_C007223) violated - parent key not 
+found 
+
+
+SQL> insert into employee values(emp_seq.nextval, 'AAA', 25000, 15, 'bd');
+insert into employee values(emp_seq.nextval, 'AAA', 25000, 15, 'bd')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (NEWYEAR.SYS_C007223) violated - parent key not 
+found 
+
+
+SQL> insert into employee values(emp_seq.nextval, 'AAAA', 26000, 5,default);
+insert into employee values(emp_seq.nextval, 'AAAA', 26000, 5,default)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (NEWYEAR.SYS_C007223) violated - parent key not 
+found 
+
+
+SQL> select * from emp_backup;
+
+no rows selected
+
+SQL> insert into employee values(100, 'AAA', 25000, 15, 'bd');
+insert into employee values(100, 'AAA', 25000, 15, 'bd')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (NEWYEAR.SYS_C007223) violated - parent key not 
+found 
+
+
+SQL> drop trigger emp_backup;
+drop trigger emp_backup
+*
+ERROR at line 1:
+ORA-04080: trigger 'EMP_BACKUP' does not exist 
+
+
+SQL> drop trigger emp_trigger_after;
+
+Trigger dropped.
+
+SQL> insert into employee values(100, 'AAA', 25000, 15, 'bd');
+insert into employee values(100, 'AAA', 25000, 15, 'bd')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (NEWYEAR.SYS_C007223) violated - parent key not 
+found 
+
+
+SQL> 

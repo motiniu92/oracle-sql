@@ -1,0 +1,420 @@
+SQL> create table abc (id number(5), name varchar2(50), salary number(7,2), hire_date date default sysdate, address varchar2(55));
+create table abc (id number(5), name varchar2(50), salary number(7,2), hire_date date default sysdate, address varchar2(55))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> create table abc (id number(5), name varchar2(50), salary number(7,2), hire_date date, address varchar2(55));
+create table abc (id number(5), name varchar2(50), salary number(7,2), hire_date date, address varchar2(55))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> create table pdf (id number(5), name varchar2(50), salary number(7,2), hire_date date, address varchar2(55));
+
+Table created.
+
+SQL> alter table pdf modify id primary key;
+
+Table altered.
+
+SQL> insert into &table values (01, 'Mehedi', 25000, '20_Mar_1998', 'Central Road');
+Enter value for table: pdf
+old   1: insert into &table values (01, 'Mehedi', 25000, '20_Mar_1998', 'Central Road')
+new   1: insert into pdf values (01, 'Mehedi', 25000, '20_Mar_1998', 'Central Road')
+
+1 row created.
+
+SQL> insert into &table values (02, 'Robi', 15000, '02_Apr_1997', 'Dhaka');
+Enter value for table: pdf
+old   1: insert into &table values (02, 'Robi', 15000, '02_Apr_1997', 'Dhaka')
+new   1: insert into pdf values (02, 'Robi', 15000, '02_Apr_1997', 'Dhaka')
+
+1 row created.
+
+SQL> insert into &table values (03, 'Kadir', 31000, '10_Jan_1995', 'Japan');
+Enter value for table: pdf
+old   1: insert into &table values (03, 'Kadir', 31000, '10_Jan_1995', 'Japan')
+new   1: insert into pdf values (03, 'Kadir', 31000, '10_Jan_1995', 'Japan')
+
+1 row created.
+
+SQL> select * from pdf;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                               
+--------- -------------------------------------------------------               
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+                                                                                
+
+SQL> ALTER TABLE pdf ADD(phone number(15), job_title VARCHAR2(20));
+
+Table altered.
+
+SQL> select name, job_title, salary, salary+(salary*.30) "Review Salary" from pdf;
+
+NAME                                               JOB_TITLE                    
+-------------------------------------------------- --------------------         
+    SALARY Review Salary                                                        
+---------- -------------                                                        
+Mehedi                                                                          
+     25000         32500                                                        
+                                                                                
+Robi                                                                            
+     15000         19500                                                        
+                                                                                
+Kadir                                                                           
+     31000         40300                                                        
+                                                                                
+
+SQL> select name, salary from pdf Where salary =(select MIN(salary) from pdf);
+
+NAME                                                   SALARY                   
+-------------------------------------------------- ----------                   
+Robi                                                    15000                   
+
+SQL> update pdf set job_title='Manager';
+
+3 rows updated.
+
+SQL> create or replace view pdf_view as select * from pdf;
+
+View created.
+
+SQL> create sequence pdf_seq increment by 1 start with 1 nocache nocycle;
+
+Sequence created.
+
+SQL> create index pdf_id_ind on pdf(id);
+create index pdf_id_ind on pdf(id)
+                               *
+ERROR at line 1:
+ORA-01408: such column list already indexed 
+
+
+SQL> create index pdf_id_ind on pdf(name);
+
+Index created.
+
+SQL> create table pdf_backup as select * from pdf;
+
+Table created.
+
+SQL> CREATE OR REPLACE TRIGGER pdf_trigger_after AFTER insert ON pdf
+  2  FOR EACH ROW
+  3  DECLARE
+  4  BEGIN
+  5  insert into pdf_backup values (:new.id, :new.name, :new.salary, :new.hire_date, :new.address, :new.phone, :new.job_title);
+  6  dbms_output.put_line ('Data Inserted successfully into pdf_backup table');
+  7  END;
+  8  /
+
+Trigger created.
+
+SQL> select * from pdf_backup;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+Manager                                                                         
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+Manager                                                                         
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+Manager                                                                         
+                                                                                
+
+SQL> CREATE OR REPLACE TRIGGER pdf_trigger_update AFTER update ON pdf
+  2  FOR EACH ROW
+  3  DECLARE
+  4  BEGIN
+  5  UPDATE pdf_backup
+  6  set id = :new.id, name = :new.name, salary = :new.salary, hire_date = :new.hire_date,
+  7  address = :new.address, phone = :new.phone, job_title = :new.job_title
+  8  where id = :old.id or name = :old.name or salary = :old.salary;
+  9  dbms_output.put_line ('Data Updated successfully into pdf_backup table');
+ 10  END;
+ 11  /
+
+Trigger created.
+
+SQL> CREATE OR REPLACE TRIGGER pdf_trigger_delete AFTER delete ON pdf
+  2  FOR EACH ROW
+  3  DECLARE
+  4  BEGIN
+  5  DELETE from pdf_backup
+  6  where id = :old.id or name = :old.name or salary = :old.salary;
+  7  dbms_output.put_line ('Data deleted successfully from pdf_backup table');
+  8  END;
+  9  /
+
+Trigger created.
+
+SQL> insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007136) violated 
+
+
+SQL> insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for pdf: pdf
+old   1: insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007136) violated 
+
+
+SQL> insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for pdf: 04
+old   1: insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into 04 values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+insert into 04 values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+            *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for pdf: pdf_seq
+old   1: insert into &pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into pdf_seq values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+insert into pdf_seq values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+            *
+ERROR at line 1:
+ORA-02201: sequence not allowed here 
+
+
+SQL> insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for table: pdf
+old   1: insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+insert into pdf values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HR.SYS_C007136) violated 
+
+
+SQL> insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for table: pdf_seq
+old   1: insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into pdf_seq values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+insert into pdf_seq values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+            *
+ERROR at line 1:
+ORA-02201: sequence not allowed here 
+
+
+SQL> insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager');
+Enter value for table: pdf_backup
+old   1: insert into &table values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+new   1: insert into pdf_backup values (pdf_seq.nextval, 'Limon', 60000, default, 'Fuller Road', 01717677450,'Manager')
+
+1 row created.
+
+SQL> update pdf set name = 'Kalam' where id = 06;
+
+0 rows updated.
+
+SQL> update pdf set id = 07, hire_date = default, address = 'Elephant Road' where name = 'Masud';
+
+0 rows updated.
+
+SQL> desc pdf;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(5)
+ NAME                                               VARCHAR2(50)
+ SALARY                                             NUMBER(7,2)
+ HIRE_DATE                                          DATE
+ ADDRESS                                            VARCHAR2(55)
+ PHONE                                              NUMBER(15)
+ JOB_TITLE                                          VARCHAR2(20)
+
+SQL> select * from pdf;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+Manager                                                                         
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+Manager                                                                         
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+Manager                                                                         
+                                                                                
+
+SQL> select * from pdf_backup;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+Manager                                                                         
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+Manager                                                                         
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+Manager                                                                         
+                                                                                
+         4 Limon                                                   60000        
+          Fuller Road                                             1717677450    
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+Manager                                                                         
+                                                                                
+
+SQL> update pdf set name = 'Kalam' where id = 05;
+
+0 rows updated.
+
+SQL> update pdf_backup set name = 'Kalam' where id = 05;
+
+0 rows updated.
+
+SQL> update pdf set id = 06, hire_date = default, address = 'Elephant Road' where name = 'Masud';
+
+0 rows updated.
+
+SQL> update pdf set name = 'Taposh', hire_date = default, address = 'Azimpur  where name = 'Masud';
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> update pdf set name = 'Taposh', hire_date = default, address = 'Azimpur  Road' where id = 7;
+
+0 rows updated.
+
+SQL> delete from pdf where id = 06;
+
+0 rows deleted.
+
+SQL> select * from pdf;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+Manager                                                                         
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+Manager                                                                         
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+Manager                                                                         
+                                                                                
+
+SQL> select * from pdf_backup;
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+         1 Mehedi                                                  25000        
+20-MAR-98 Central Road                                                          
+Manager                                                                         
+                                                                                
+         2 Robi                                                    15000        
+02-APR-97 Dhaka                                                                 
+Manager                                                                         
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+                                                                                
+         3 Kadir                                                   31000        
+10-JAN-95 Japan                                                                 
+Manager                                                                         
+                                                                                
+         4 Limon                                                   60000        
+          Fuller Road                                             1717677450    
+
+        ID NAME                                                   SALARY        
+---------- -------------------------------------------------- ----------        
+HIRE_DATE ADDRESS                                                      PHONE    
+--------- ------------------------------------------------------- ----------    
+JOB_TITLE                                                                       
+--------------------                                                            
+Manager                                                                         
+                                                                                
+
+SQL> spool off;

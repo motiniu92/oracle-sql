@@ -1,0 +1,165 @@
+SQL> create table department (id number(5) primary key, dep_name varchar2(55) unique);
+
+Table created.
+
+SQL> create table employee (emp_id number(5) primary key, emp_name varchar2(55), salary number (7,2) check(salary>25000), joining_date date check(joining_date<'01-Jan-2000'), dept_id number(5) not null, constraint emp_dep foreign key (dept_id) references department(id));
+
+Table created.
+
+SQL> create sequence dep_seq increment by 10 start with 10 nocache nocycle;
+
+Sequence created.
+
+SQL> create sequence emp_seq increment by 1 start with 1 nocache nocycle;
+
+Sequence created.
+
+SQL> create table emp_backup as select * from employee;
+
+Table created.
+
+SQL> create table dep_backup as select * from department;
+
+Table created.
+
+SQL> insert into department values (dep_seq.nextval,'Finance');
+
+1 row created.
+
+SQL> CREATE OR REPLACE TRIGGER EMP_TRIGGER AFTER INSERT ON employee
+  2    FOR EACH ROW
+  3    DECLARE
+  4    BEGIN
+  5    insert into emp_backup values(:new.emp_id, :new.emp_name, :new.salary, :new.joining_date, :new.dept_id);
+  6    dbms_output.put_line('Data inserted successfully into emp_backup table');
+  7    END;
+  8    /
+
+Trigger created.
+
+SQL> insert into employee values (emp_seq.nextval, 'Shuvo', 26000, '12-Jan-1995', 10);
+
+1 row created.
+
+SQL> CREATE OR REPLACE TRIGGER EMP_TRIGGER AFTER update ON employee
+  2    FOR EACH ROW
+  3    DECLARE
+  4    BEGIN
+  5    UPDATE emp_backup
+  6    set emp_id = :new.emp_id, emp_name = :new.emp_name, salary = :new.salary
+  7    where emp_id = :old.emp_id or emp_name = :old.emp_name or salary = :old.salary;
+  8    dbms_output.put_line('Data updated successfully into emp_backup table');
+  9    END;
+ 10    /
+
+Trigger created.
+
+SQL> update employee set salary = 27000 where emp_id = 2;
+
+0 rows updated.
+
+SQL> CREATE OR REPLACE TRIGGER EMP_TRIGGER AFTER delete ON employee
+  2    FOR EACH ROW
+  3    DECLARE
+  4    BEGIN
+  5    DELETE from emp_backup where emp_id = :old.emp_id or emp_name = :old.emp_name or salary = :old.salary;
+  6    dbms_output.put_line('Data deleted successfully from emp_backup table');
+  7    END;
+  8    /
+
+Trigger created.
+
+SQL> delete from employee where emp_id=3;
+
+0 rows deleted.
+
+SQL> CREATE OR REPLACE PROCEDURE insertEmployee(
+  2    p_emp_id IN employee.emp_id%TYPE,
+  3    p_emp_name IN employee.emp_name%TYPE,
+  4    p_salary IN employee.salary%TYPE,
+  5    p_joining_date IN employee.joining_date%TYPE,
+  6    p_dept_id IN employee.dept_id%TYPE)
+  7    IS
+  8    BEGIN
+  9    INSERT into employee(emp_id, emp_name, salary, joining_date, dept_id)
+ 10    VALUES (p_emp_id, p_emp_name, p_salary, p_joining_date, p_dept_id);
+ 11    COMMIT;
+ 12    END;
+ 13    /
+
+Procedure created.
+
+SQL> BEGIN
+  2    insertEmployee(emp_seq.nextval, 'Raihan', 35000, '12-Mar-1998', 40);
+  3    END;
+  4    /
+BEGIN
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HR.EMP_DEP) violated - parent key not found 
+ORA-06512: at "HR.INSERTEMPLOYEE", line 9 
+ORA-06512: at line 2 
+
+
+SQL> BEGIN
+  2  insertEmployee(emp_seq.nextval, 'Raihan', 35000, '12-Mar-1998', 40);
+  3  END;
+  4  /
+BEGIN
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HR.EMP_DEP) violated - parent key not found 
+ORA-06512: at "HR.INSERTEMPLOYEE", line 9 
+ORA-06512: at line 2 
+
+
+SQL> CREATE OR REPLACE PROCEDURE updateEmployee(
+  2    p_emp_id IN employee.emp_id%TYPE,
+  3    p_emp_name IN employee.emp_name%TYPE,
+  4    p_salary IN employee.salary%TYPE,
+  5    p_joining_date IN employee.joining_date%TYPE,
+  6    p_dept_id IN employee.dept_id%TYPE)
+  7    IS
+  8    BEGIN
+  9    UPDATE employee SET emp_id=p_emp_id, emp_name=p_emp_name, salary=p_salary, joining_date=p_joining_date, dept_id=p_dept_id
+ 10    where emp_id = p_emp_id;
+ 11    COMMIT;
+ 12    END;
+ 13    /
+
+Procedure created.
+
+SQL> BEGIN
+  2    updateEmployee(7, 'Raihan', 35000, '12-Mar-1998', 40);
+  3    END;
+  4    /
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE deleteEmployee(
+  2    p_emp_id IN employee.emp_id%TYPE)
+  3    IS
+  4    BEGIN
+  5    DELETE from employee where emp_id = p_emp_id;
+  6    COMMIT;
+  7    END;
+  8    /
+
+Procedure created.
+
+SQL> BEGIN
+  2    deleteEmployee(6);
+  3    END;
+  4    /
+
+PL/SQL procedure successfully completed.
+
+SQL> create view emp_view as select e.emp_id, e.emp_name, e.salary*12 "Anuual Sal", d.dep_name from employee e, department d where e.dept_id = d.id;
+
+View created.
+
+SQL> create synonym esyn for emp_view;
+
+Synonym created.
+
+SQL> spool off;
